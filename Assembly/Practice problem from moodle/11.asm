@@ -49,7 +49,7 @@
     SUB AL,NUM2
     MOV AH,0   
     
-    AAS ;ASCII Adjust after Addition
+    AAS ;ASCII Adjust after Sub
        
     ADD AL,NUM1  
     
