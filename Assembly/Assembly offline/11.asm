@@ -46,12 +46,12 @@
     SUB AL,30H
     MOV NUM3,AL 
     
-    ADD AL,NUM1
+    SUB AL,NUM2
     MOV AH,0   
     
-    AAA ;ASCII Adjust after Addition
+    AAS ;ASCII Adjust after Addition
        
-    ADD AL,NUM2  
+    ADD AL,NUM1  
     
     AAA
     

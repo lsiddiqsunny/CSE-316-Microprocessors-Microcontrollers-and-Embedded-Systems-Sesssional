@@ -1,4 +1,4 @@
-;Input a lowercase character, convert it to uppercase, and show it to the console.
+;Input a uppercase character, convert it to lowercase, and show it to the console.
 
 .MODEL SMALL
 

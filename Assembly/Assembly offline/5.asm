@@ -1,5 +1,4 @@
-;Input a lowercase character, convert it to uppercase, and show it to the console.
-
+;Store a number, x in the register CL (i.e., directly in the code). Show the character in the console of which the ASCII value is x.
 .MODEL SMALL
 
 .DATA
