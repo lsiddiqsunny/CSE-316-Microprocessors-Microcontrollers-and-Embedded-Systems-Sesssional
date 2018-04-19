@@ -1,0 +1,22 @@
+TITLE PRINT 10 STARTS
+.MODEL SMALL
+.STACK 100H
+.CODE
+MAIN PROC  
+    
+    MOV AH,2
+    MOV DL,'*'
+    MOV CX,10
+    
+    TOP:
+    INT 21H
+    DEC CX
+    JNZ TOP  ;CHECK TO TERMINATE LOOP
+ 
+    
+    MOV AH,4CH
+    INT 21H
+MAIN ENDP
+    END MAIN
+    
+    
