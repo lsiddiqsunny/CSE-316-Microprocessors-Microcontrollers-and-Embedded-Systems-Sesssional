@@ -1,0 +1,208 @@
+.MODEL SMALL
+.STACK 100H 
+.DATA   
+
+ARRAY DW 5 DUP(?) 
+REM DB ?
+
+.CODE
+     MAIN PROC  
+    
+     MOV AX,@DATA
+     MOV DS,AX  
+     
+     MOV CX,5 
+     MOV SI,0
+     
+     TOP1:
+     CALL INDEC 
+     MOV ARRAY[SI],AX
+     ADD SI,2
+     LOOP TOP1
+     
+      MOV AX,2
+      MOV CX,5
+      MUL CX
+      MOV CX,AX  
+      LEA SI,ARRAY
+      CALL BUBBLE
+     
+     MOV CX,5    
+     LEA SI,ARRAY
+     
+     TOP2:
+     MOV AX,[SI]
+     CALL OUTDEC
+     ADD SI,2  
+     MOV AH,2
+     MOV DL,' '
+     INT 21H
+     LOOP TOP2
+     
+     
+     
+     MOV AH,4CH
+     INT 21H
+     MAIN ENDP  
+     
+     INDEC PROC
+        PUSH BX
+        PUSH CX
+        PUSH DX
+        MOV BX,0
+        MOV CX,0
+        MOV AH,1
+        INT 21H
+        CMP AL,'-'
+        JE MINUS 
+        CMP AL,'X'
+        JE EXIT_
+        JMP TOP
+        
+        MINUS:
+        MOV CX,1
+        INT 21H
+        JMP TOP
+        
+        TOP:
+        SUB AX,30H 
+        MOV AH,0
+        PUSH AX
+        MOV AX,10
+        MUL BX   
+        POP BX
+        ADD BX,AX
+        
+        MOV AH,1
+        INT 21H
+        CMP AL,' '
+        JNE TOP
+        MOV AX,BX
+        
+        OR CX,CX
+        JZ EXIT_
+        NEG AX
+        
+        EXIT_:  
+        POP DX
+        POP CX
+        POP BX
+        RET
+      INDEC ENDP  
+     
+       OUTDEC PROC   
+        PUSH AX
+        PUSH BX
+        PUSH CX
+        PUSH DX 
+        CMP AX,0
+        JGE BEGIN
+        PUSH AX
+        MOV DL,'-'
+        MOV AH,2
+        INT 21H
+        POP AX
+        NEG AX
+        
+        BEGIN:
+        XOR CX,CX
+        MOV BX,10
+        
+        REPEAT:
+        XOR DX,DX
+        DIV BX
+        PUSH DX
+        INC CX
+        OR AX,AX
+        JNE REPEAT
+        MOV AH,2
+        
+        PRINT_LOOP:
+        POP DX
+        ADD DL,30H
+        INT 21H
+        LOOP PRINT_LOOP
+        
+        POP DX
+        POP CX
+        POP BX
+        POP AX
+        RET
+        OUTDEC ENDP 
+       
+       BUBBLE PROC 
+        PUSH AX
+        PUSH BX
+        PUSH CX
+        PUSH DX 
+        PUSH SI
+        MOV AX,0
+        MOV BX,0
+        MOV DI,SI
+        TOPB1: 
+        CMP AX,CX
+        JE EXIT1_
+         MOV BX,AX
+         ADD BX,2  
+         ADD SI,AX
+         MOV DX,[SI]
+         SUB SI,AX   
+         TOPB2:
+         CMP BX,CX
+         JE END_TOPB2  
+         ADD SI,BX
+         CMP DX,[SI]
+         JG EXE  
+         SUB SI,BX
+         ADD BX,2
+         JMP TOPB2
+         
+         
+         EXE: 
+         
+         MOV DI,AX
+        
+         
+         CALL SWAP 
+         SUB DI,AX
+         MOV DX,[SI]
+         SUB SI,BX 
+         
+         ADD BX,2
+         
+         JMP TOPB2
+         
+         END_TOPB2:
+         ADD AX,2 
+         JMP TOPB1
+         
+        
+       
+        
+        EXIT1_:
+        POP SI
+        POP DX
+        POP CX
+        POP BX
+        POP AX 
+        RET
+       BUBBLE ENDP
+       
+ 
+        SWAP PROC    
+            
+            PUSH AX
+            
+            MOV AX,[SI]
+            XCHG AX,[DI]
+            MOV [SI],AX
+            POP AX
+            RET
+        
+        SWAP ENDP 
+    
+        
+        
+     
+     
+END MAIN
