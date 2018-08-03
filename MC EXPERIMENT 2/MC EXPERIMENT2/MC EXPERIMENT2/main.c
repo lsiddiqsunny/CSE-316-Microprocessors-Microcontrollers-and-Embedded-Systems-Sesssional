@@ -71,7 +71,7 @@ void rotate_display(int l ){
                 m=(j-k)%8;
 				if(m<0) m+=8;}
                 else m=(j+k)%8;
-				PORTD=~(1<<((m)%8));
+				PORTD=~(1<<(m));
 				_delay_ms(.5);
 			}
 		}

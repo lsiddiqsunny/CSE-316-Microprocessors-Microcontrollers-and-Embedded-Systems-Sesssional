@@ -1,0 +1,8 @@
+two types of interrupts - hardware, software
+
+interrupt vector table
+
+return from interrupts - iret
+
+interrupts are like functions
+
